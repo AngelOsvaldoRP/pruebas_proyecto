@@ -1,17 +1,32 @@
 
 import 'package:flutter/material.dart';
+import 'package:pruebas_proyecto/FetchData/FetchTienda.dart';
+import '../../../FetchData/FetchProducto.dart';
 import 'Menu.dart';
 
-class HacerPedido extends StatelessWidget {
+List getTiendaProducto (tiendaId, productos) {
+  List producto = [];
+  print(productos);
+  for(var x in productos){
+    print(x);
+    if(tiendaId == x[3]){
+      producto.add("${x[0]}  RD${x[1]}");
+    }
+  }
+  return producto;
 
-  const HacerPedido({Key? key}) : super(key: key);
+}
+
+class HacerPedido extends StatelessWidget {
+  final List tienda;
+  final List productos;
+
+  const HacerPedido({Key? key, required this.tienda, required this.productos}) : super(key: key);
 
   get itemCount => null;
 
   @override
   Widget build(BuildContext context) {
-
-    final cafeterias = ['Kiosko', 'Pensum', 'Colegio'];
 
     return Scaffold(
       body: Container(
@@ -71,12 +86,12 @@ class HacerPedido extends StatelessWidget {
                         ),
                         ListView.separated(
                           shrinkWrap: true,
-                          itemCount: cafeterias.length,
+                          itemCount: tienda.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(cafeterias[index]),
+                              title: Text(tienda[index].name),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu(cafeterias[index])));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu(tienda: tienda[index].name, producto: getTiendaProducto(tienda[index].id, productos))));
                               },
                             );
                           },

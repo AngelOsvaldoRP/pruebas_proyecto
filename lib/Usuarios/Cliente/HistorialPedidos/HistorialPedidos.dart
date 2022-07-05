@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../../FetchData/FetchProducto.dart';
+import '../../../FetchData/FetchTienda.dart';
 import '../InterfazCliente.dart';
 
 class HistorialPedido extends StatelessWidget {
@@ -92,7 +94,7 @@ class HistorialPedido extends StatelessWidget {
                         // #signup_button
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                             },
                             child: Container(
                               height: 50,

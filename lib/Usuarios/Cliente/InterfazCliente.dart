@@ -3,17 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/HacerPedido/HacerPedido.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/PerfilCliente/PerfilCliente.dart';
 
+import '../../FetchData/FetchProducto.dart';
+import '../../FetchData/FetchTienda.dart';
 import 'HistorialPedidos/HistorialPedidos.dart';
 
 class InterfazCliente extends StatelessWidget {
 
-  const InterfazCliente({Key? key}) : super(key: key);
+  final Future<List<Tienda>> tienda;
+  final Future<List<Producto>> producto;
+
+
+  InterfazCliente({Key? key, required this.tienda, required this.producto}) : super(key: key);
+
+
 
   get myMarkerThumb => null;
 
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    List tiendaName = [];
+    List productos = [];
+
 
     return Scaffold(
       body: Container(
@@ -82,7 +96,7 @@ class InterfazCliente extends StatelessWidget {
 
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const HacerPedido()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HacerPedido(tienda: tiendaName, productos: productos)));
                             },
                             child: Container(
                               height: 50,
@@ -102,6 +116,38 @@ class InterfazCliente extends StatelessWidget {
                         ),
                         //const ButtonLogin2(),
                         const SizedBox(height: 50),
+                        FutureBuilder<List<Tienda>>(
+                          future: tienda,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && tiendaName.isEmpty) {
+                              for(var x in snapshot.data!){
+                                tiendaName.add(x);
+                              }
+                            } else if (snapshot.hasError) {
+                              print("${snapshot.error}");
+                              print("error");
+                              return Text("${snapshot.error}");
+                            }
+                            // Por defecto, muestra un loading spinner
+                            return const Text("");
+                          },),
+                        FutureBuilder<List<Producto>>(
+                          future: producto,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && productos.isEmpty) {
+                              for(var x in snapshot.data!){
+                                List newProducto = [x.name,x.price,x.cant,x.idTienda,x.id];
+                                productos.add(newProducto);
+                              }
+                            } else if (snapshot.hasError) {
+                              print("${snapshot.error}");
+                              print("error");
+                              return Text("${snapshot.error}");
+                            }
+                            // Por defecto, muestra un loading spinner
+                            return const Text("");
+                          },),
+
                         InkWell(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const HistorialPedido()));

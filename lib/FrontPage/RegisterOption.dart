@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 import 'package:pruebas_proyecto/Usuarios/Vendedor/InterfazVendedor.dart';
+import '../FetchData/FetchProducto.dart';
 import '../FetchData/FetchTienda.dart';
 import '../FetchData/FetchUser.dart';
 
@@ -260,7 +261,7 @@ class CostumerOption extends StatelessWidget {
                         InkWell(
                             onTap: (){
                               _postCliente = createCliente(id, credito.text);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                             },
                             child: Container(
                               height: 50,

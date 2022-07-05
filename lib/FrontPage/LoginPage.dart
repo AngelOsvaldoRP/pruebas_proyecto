@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:pruebas_proyecto/FetchData/FetchProducto.dart';
+import 'package:pruebas_proyecto/FetchData/FetchTienda.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 import 'package:pruebas_proyecto/FetchData/FetchUser.dart';
 import '../FetchData/FetchUser.dart';
@@ -140,9 +142,9 @@ class LoginPage extends StatelessWidget {
                                   if(x[1] == password.text){
                                     ver = true;
                                     if(x[2] == "Cliente"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                                     }else{
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                                     }
                                   }
                                 }

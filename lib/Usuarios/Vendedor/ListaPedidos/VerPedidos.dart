@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../../FetchData/FetchProducto.dart';
+import '../../../FetchData/FetchTienda.dart';
 import '../../Cliente/InterfazCliente.dart';
 import 'PrepararPedido.dart';
 
@@ -93,7 +95,7 @@ class VerPedidos extends StatelessWidget {
                         // #signup_button
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                             },
                             child: Container(
                               height: 50,

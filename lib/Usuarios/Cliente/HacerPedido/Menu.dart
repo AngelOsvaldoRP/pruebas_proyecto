@@ -6,15 +6,17 @@ import 'Ubicacion.dart';
 
 class Menu extends StatelessWidget {
 
-  final String cafeteria;
+  final String tienda;
+  final List producto;
 
-  const Menu(this.cafeteria, {Key? key}) : super(key: key);
+  Menu({Key? key, required this.tienda, required this.producto}) : super(key: key);
 
   get itemCount => null;
 
 
   @override
   Widget build(BuildContext context) {
+    print(producto);
 
     final productos = ['Empanada1', 'Empanada2', 'Empanada3'];
 
@@ -41,7 +43,7 @@ class Menu extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(cafeteria,style: const TextStyle(color: Colors.white,fontSize: 40),),
+                  Text(tienda,style: const TextStyle(color: Colors.white,fontSize: 40),),
                 ],
               ),
             ),
@@ -76,12 +78,12 @@ class Menu extends StatelessWidget {
                         ),
                         ListView.separated(
                           shrinkWrap: true,
-                          itemCount: productos.length,
+                          itemCount: producto.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(productos[index]),
+                              title: Text(producto[index]),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu2(cafeteria)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu2(tienda)));
                               },
                             );
                           },

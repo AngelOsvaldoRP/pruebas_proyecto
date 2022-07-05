@@ -2,6 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 
+import '../../../FetchData/FetchProducto.dart';
+import '../../../FetchData/FetchTienda.dart';
+import 'package:qr/qr.dart';
+
+final qrCode = QrCode(4, QrErrorCorrectLevel.L)..addData('Hello, world in QR form!');
+final qrImage = QrImage(qrCode);
 
 
 class FinalPedido extends StatefulWidget {
@@ -10,9 +16,11 @@ class FinalPedido extends StatefulWidget {
 
   @override
   _FinalPedidoState createState() => _FinalPedidoState();
+
 }
 
 class _FinalPedidoState extends State<FinalPedido> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +74,7 @@ class _FinalPedidoState extends State<FinalPedido> {
                       const SizedBox(
                         height: 15,
                       ),
+
                       // #text_field
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -142,7 +151,7 @@ class _FinalPedidoState extends State<FinalPedido> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const InterfazCliente()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                           },
                           child: Container(
                             height: 50,
@@ -174,3 +183,4 @@ class _FinalPedidoState extends State<FinalPedido> {
     );
   }
 }
+
