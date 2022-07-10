@@ -6,7 +6,6 @@ import 'Menu.dart';
 
 List getTiendaProducto (tiendaId, productos) {
   List producto = [];
-  print(productos);
   for(var x in productos){
     print(x);
     if(tiendaId == x[3]){
@@ -20,8 +19,9 @@ List getTiendaProducto (tiendaId, productos) {
 class HacerPedido extends StatelessWidget {
   final List tienda;
   final List productos;
+  final int idCliente;
 
-  const HacerPedido({Key? key, required this.tienda, required this.productos}) : super(key: key);
+  const HacerPedido({Key? key, required this.tienda, required this.productos, required this.idCliente}) : super(key: key);
 
   get itemCount => null;
 
@@ -91,7 +91,7 @@ class HacerPedido extends StatelessWidget {
                             return ListTile(
                               title: Text(tienda[index].name),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu(tienda: tienda[index].name, producto: getTiendaProducto(tienda[index].id, productos))));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Menu(tienda: tienda[index].name, producto: productos, selectProducto: [], idCliente: idCliente)));
                               },
                             );
                           },

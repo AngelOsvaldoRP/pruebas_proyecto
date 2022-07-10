@@ -11,9 +11,10 @@ class InterfazCliente extends StatelessWidget {
 
   final Future<List<Tienda>> tienda;
   final Future<List<Producto>> producto;
+  final int idCliente;
 
 
-  InterfazCliente({Key? key, required this.tienda, required this.producto}) : super(key: key);
+  InterfazCliente({Key? key, required this.tienda, required this.producto, required this.idCliente}) : super(key: key);
 
 
 
@@ -96,7 +97,7 @@ class InterfazCliente extends StatelessWidget {
 
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => HacerPedido(tienda: tiendaName, productos: productos)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HacerPedido(tienda: tiendaName, productos: productos, idCliente: idCliente)));
                             },
                             child: Container(
                               height: 50,
@@ -136,7 +137,7 @@ class InterfazCliente extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData && productos.isEmpty) {
                               for(var x in snapshot.data!){
-                                List newProducto = [x.name,x.price,x.cant,x.idTienda,x.id];
+                                List newProducto = [x.name,x.price,x.cant,x.idTienda,x.id,0];
                                 productos.add(newProducto);
                               }
                             } else if (snapshot.hasError) {
@@ -150,7 +151,7 @@ class InterfazCliente extends StatelessWidget {
 
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const HistorialPedido()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: idCliente)));
                             },
                             child: Container(
                               height: 50,
@@ -171,7 +172,7 @@ class InterfazCliente extends StatelessWidget {
                         const SizedBox(height: 50),
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const PerfilCliente()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilCliente(idCliente: idCliente)));
 
                             },
                             child: Container(

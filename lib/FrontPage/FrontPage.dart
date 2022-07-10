@@ -13,7 +13,6 @@ class FrontPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(begin: Alignment.topCenter, colors: [
             (Colors.red[900])!,
@@ -25,7 +24,7 @@ class FrontPage extends StatelessWidget {
           children: <Widget>[
             const SizedBox(height: 20,),
             const Header(),
-            Expanded(child: Container(
+            Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -50,7 +49,7 @@ class FrontPage extends StatelessWidget {
                   ],
                 ),
               )
-            ),),
+            ),
           ],
         ),
       ),

@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../../TestComponents/Test.dart';
 import 'FinalPedido.dart';
+import 'crearOrden.dart';
 
 class SelectUbication extends StatefulWidget {
+  final List selectProducto;
+  final int idTienda;
+  final int idCliente;
 
-  const SelectUbication({Key? key}) : super(key: key);
+  SelectUbication({Key? key, required this.selectProducto, required this.idTienda, required this.idCliente}) : super(key: key);
 
   @override
   _SelectUbication createState() => _SelectUbication();
@@ -105,7 +109,7 @@ class _SelectUbication extends State<SelectUbication> {
                         // #vendedor
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const FinalPedido()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FinalPedido(ordenInfo: generarOrden(widget.idTienda, widget.idCliente, widget.selectProducto, 1))));
                             },
                             child: Container(
                               height: 50,

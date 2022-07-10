@@ -6,14 +6,17 @@ import '../../../FetchData/FetchProducto.dart';
 import '../../../FetchData/FetchTienda.dart';
 
 class PerfilCliente extends StatefulWidget {
+  final int idCliente;
 
-  const PerfilCliente({Key? key}) : super(key: key);
+  PerfilCliente({Key? key, required this.idCliente}) : super(key: key);
 
   @override
   _PerfilClienteState createState() => _PerfilClienteState();
 }
 
 class _PerfilClienteState extends State<PerfilCliente> {
+  get idCliente => null;
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +133,7 @@ class _PerfilClienteState extends State<PerfilCliente> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente,)));
                           },
                           child: Container(
                             height: 50,

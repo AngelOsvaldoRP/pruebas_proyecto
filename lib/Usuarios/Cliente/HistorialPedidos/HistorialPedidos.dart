@@ -6,8 +6,10 @@ import '../../../FetchData/FetchTienda.dart';
 import '../InterfazCliente.dart';
 
 class HistorialPedido extends StatelessWidget {
+  
+  final int idCliente;
 
-  const HistorialPedido({Key? key}) : super(key: key);
+  HistorialPedido({Key? key, required this.idCliente}) : super(key: key);
 
   get itemCount => null;
 
@@ -94,7 +96,7 @@ class HistorialPedido extends StatelessWidget {
                         // #signup_button
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente,)));
                             },
                             child: Container(
                               height: 50,
@@ -134,6 +136,8 @@ class InfoPedido extends StatefulWidget {
 }
 
 class _InfoPedidoState extends State<InfoPedido> {
+  get idCliente => null;
+
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +267,7 @@ class _InfoPedidoState extends State<InfoPedido> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const HistorialPedido()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: idCliente,)));
                           },
                           child: Container(
                             height: 50,

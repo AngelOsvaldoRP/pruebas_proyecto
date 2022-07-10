@@ -123,7 +123,7 @@ class LoginPage extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData && users.isEmpty) {
                               for(var x in snapshot.data!){
-                                List newUser = [x.userName, x.password, x.type];
+                                List newUser = [x.userName, x.password, x.type,x.id];
                                 users.add(newUser);
                               }
                             } else if (snapshot.hasError) {
@@ -142,9 +142,11 @@ class LoginPage extends StatelessWidget {
                                   if(x[1] == password.text){
                                     ver = true;
                                     if(x[2] == "Cliente"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: x[3])));
+                                      break;
                                     }else{
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: x[3],)));
+                                      break;
                                     }
                                   }
                                 }

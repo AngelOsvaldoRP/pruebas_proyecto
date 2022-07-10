@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 
+import '../../../FetchData/FetchOrden.dart';
 import '../../../FetchData/FetchProducto.dart';
 import '../../../FetchData/FetchTienda.dart';
 import 'package:qr/qr.dart';
@@ -12,7 +13,9 @@ final qrImage = QrImage(qrCode);
 
 class FinalPedido extends StatefulWidget {
 
-  const FinalPedido({Key? key}) : super(key: key);
+  final Future<Orden> ordenInfo;
+
+  const FinalPedido({Key? key, required this.ordenInfo}) : super(key: key);
 
   @override
   _FinalPedidoState createState() => _FinalPedidoState();
@@ -21,8 +24,14 @@ class FinalPedido extends StatefulWidget {
 
 class _FinalPedidoState extends State<FinalPedido> {
 
+  int? ordenID;
+  int? tiendaID;
+  int? ubicationID;
+  int? total;
+
 
   @override
+
   Widget build(BuildContext context) {
     return  Scaffold(
       body: SingleChildScrollView(
@@ -74,6 +83,22 @@ class _FinalPedidoState extends State<FinalPedido> {
                       const SizedBox(
                         height: 15,
                       ),
+                      FutureBuilder<Orden>(
+                        future: widget.ordenInfo,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            ordenID = snapshot.data?.id;
+                            tiendaID = snapshot.data?.idTienda;
+                            ubicationID = snapshot.data?.idUbication;
+                            total = snapshot.data?.total;
+                          } else if (snapshot.hasError) {
+                            print("${snapshot.error}");
+                            print("error");
+                            return Text("${snapshot.error}");
+                          }
+                          // Por defecto, muestra un loading spinner
+                          return const Text("");
+                        },),
 
                       // #text_field
                       Container(
@@ -92,17 +117,16 @@ class _FinalPedidoState extends State<FinalPedido> {
                             ]),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-
+                          children: [
                             TextField(
                               enabled: false,
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Orden ID: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Orden ID: $ordenID",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -110,12 +134,12 @@ class _FinalPedidoState extends State<FinalPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Tienda: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Tienda: $tiendaID",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -123,12 +147,12 @@ class _FinalPedidoState extends State<FinalPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Ubicación: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Ubicación: $ubicationID",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -136,10 +160,10 @@ class _FinalPedidoState extends State<FinalPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Pago Total: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Pago Total: $total",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
                           ],
                         ),
@@ -151,7 +175,7 @@ class _FinalPedidoState extends State<FinalPedido> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
                           },
                           child: Container(
                             height: 50,
