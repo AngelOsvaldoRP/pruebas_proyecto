@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../TestComponents/Test.dart';
+import '../../../FetchData/FetchOrden.dart';
 import 'FinalPedido.dart';
 import 'crearOrden.dart';
 
@@ -109,7 +109,8 @@ class _SelectUbication extends State<SelectUbication> {
                         // #vendedor
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => FinalPedido(ordenInfo: generarOrden(widget.idTienda, widget.idCliente, widget.selectProducto, 1))));
+                              Future<Orden> ordenSelect = generarOrden(widget.idTienda, widget.idCliente, widget.selectProducto, 1);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FinalPedido(idCliente: widget.idCliente, ordenInfo: ordenSelect)));
                             },
                             child: Container(
                               height: 50,

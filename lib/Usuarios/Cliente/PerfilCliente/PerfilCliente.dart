@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 
+import '../../../FetchData/FetchOrden.dart';
 import '../../../FetchData/FetchProducto.dart';
 import '../../../FetchData/FetchTienda.dart';
 
@@ -133,7 +134,7 @@ class _PerfilClienteState extends State<PerfilCliente> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente,)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente, orden: fetchOrden())));
                           },
                           child: Container(
                             height: 50,

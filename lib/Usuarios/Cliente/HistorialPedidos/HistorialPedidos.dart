@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../FetchData/FetchOrden.dart';
 import '../../../FetchData/FetchProducto.dart';
 import '../../../FetchData/FetchTienda.dart';
 import '../InterfazCliente.dart';
@@ -8,15 +10,14 @@ import '../InterfazCliente.dart';
 class HistorialPedido extends StatelessWidget {
   
   final int idCliente;
+  final List orden;
 
-  HistorialPedido({Key? key, required this.idCliente}) : super(key: key);
+  HistorialPedido({Key? key, required this.idCliente, required this.orden}) : super(key: key);
 
   get itemCount => null;
 
   @override
   Widget build(BuildContext context) {
-
-    final cafeterias = ['Pedido1', 'Pedido2', 'Pedido3'];
 
     return Scaffold(
       body: Container(
@@ -76,12 +77,12 @@ class HistorialPedido extends StatelessWidget {
                         ),
                         ListView.separated(
                           shrinkWrap: true,
-                          itemCount: cafeterias.length,
+                          itemCount: orden.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(cafeterias[index]),
+                              title: Text("Orden ID: ${(orden[index])[0]} Estado: ${(orden[index])[3]}"),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPedido()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => InfoPedido(orden: orden[index], idCliente: idCliente)));
                               },
                             );
                           },
@@ -96,7 +97,7 @@ class HistorialPedido extends StatelessWidget {
                         // #signup_button
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto(), idCliente: idCliente, orden: fetchOrden())));
                             },
                             child: Container(
                               height: 50,
@@ -129,14 +130,16 @@ class HistorialPedido extends StatelessWidget {
 
 class InfoPedido extends StatefulWidget {
 
-  const InfoPedido({Key? key}) : super(key: key);
+  final List orden;
+  final int idCliente;
+
+  const InfoPedido({Key? key, required this.orden, required this.idCliente}) : super(key: key);
 
   @override
   _InfoPedidoState createState() => _InfoPedidoState();
 }
 
 class _InfoPedidoState extends State<InfoPedido> {
-  get idCliente => null;
 
 
   @override
@@ -178,8 +181,9 @@ class _InfoPedidoState extends State<InfoPedido> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
-                  child: Column(
+                  child: ListView(
                     children: [
+
                       const SizedBox(
                         height: 15,
                       ),
@@ -208,17 +212,17 @@ class _InfoPedidoState extends State<InfoPedido> {
                             ]),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
 
                             TextField(
                               enabled: false,
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Orden ID: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Orden ID: ${(widget.orden)[0]}",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -226,12 +230,12 @@ class _InfoPedidoState extends State<InfoPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Tienda: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Tienda: ${(widget.orden)[1]}",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -239,12 +243,12 @@ class _InfoPedidoState extends State<InfoPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Ubicación: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Ubicación: ${(widget.orden)[4]}",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 0.5,
                               height: 10,
                             ),
@@ -252,10 +256,10 @@ class _InfoPedidoState extends State<InfoPedido> {
                               enabled: false,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
-                                  hintText: "Pago Total: ",
-                                  hintStyle: TextStyle(color: Colors.grey)),
+                                  hintText: "Pago Total: ${(widget.orden)[2]}",
+                                  hintStyle: const TextStyle(color: Colors.grey)),
                             ),
                           ],
                         ),
@@ -263,11 +267,19 @@ class _InfoPedidoState extends State<InfoPedido> {
                       const SizedBox(
                         height: 35,
                       ),
-
+                      QrImage(
+                          data: (widget.orden)[5],
+                          version: QrVersions.auto,
+                          size: 200,
+                          padding: const EdgeInsets.only(left: 110,top: 10, right: 10, bottom: 10),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: idCliente,)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: widget.idCliente, orden: widget.orden)));
                           },
                           child: Container(
                             height: 50,
@@ -293,10 +305,10 @@ class _InfoPedidoState extends State<InfoPedido> {
                 ),
               ),
             ],
+
           ),
         ),
       ),
     );
   }
 }
-

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import '../../../FetchData/FetchOrden.dart';
 
 Future<Orden> generarOrden (idTienda, idCliente, selectProducto, idUbication) {
@@ -10,7 +9,8 @@ Future<Orden> generarOrden (idTienda, idCliente, selectProducto, idUbication) {
   }
   _post = createOrden(idTienda, idCliente, total!, "Pendiente", idUbication, getRandomString(10));
   print("object");
-  print(_post);
+
+
   return _post;
 }
 

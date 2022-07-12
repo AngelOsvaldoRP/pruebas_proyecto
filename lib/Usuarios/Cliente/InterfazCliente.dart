@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/HacerPedido/HacerPedido.dart';
 import 'package:pruebas_proyecto/Usuarios/Cliente/PerfilCliente/PerfilCliente.dart';
 
+import '../../FetchData/FetchOrden.dart';
 import '../../FetchData/FetchProducto.dart';
 import '../../FetchData/FetchTienda.dart';
 import 'HistorialPedidos/HistorialPedidos.dart';
@@ -11,10 +12,11 @@ class InterfazCliente extends StatelessWidget {
 
   final Future<List<Tienda>> tienda;
   final Future<List<Producto>> producto;
+  final Future<List<Orden>> orden;
   final int idCliente;
 
 
-  InterfazCliente({Key? key, required this.tienda, required this.producto, required this.idCliente}) : super(key: key);
+  InterfazCliente({Key? key, required this.tienda, required this.producto, required this.idCliente, required this.orden}) : super(key: key);
 
 
 
@@ -28,6 +30,7 @@ class InterfazCliente extends StatelessWidget {
 
     List tiendaName = [];
     List productos = [];
+    List ordenes = [];
 
 
     return Scaffold(
@@ -70,7 +73,6 @@ class InterfazCliente extends StatelessWidget {
                     padding: const EdgeInsets.all(30),
                     child: Column(
                       children: [
-                        const SizedBox(height: 60,),
                         // #email, #password
                         Container(
                           decoration: BoxDecoration(
@@ -94,29 +96,6 @@ class InterfazCliente extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => HacerPedido(tienda: tiendaName, productos: productos, idCliente: idCliente)));
-                            },
-                            child: Container(
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(horizontal: 25),
-                              decoration: BoxDecoration(
-                                color: Colors.red[800],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text("Hacer Pedido",style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),),
-                              ),
-                            )
-                        ),
-                        //const ButtonLogin2(),
-                        const SizedBox(height: 50),
                         FutureBuilder<List<Tienda>>(
                           future: tienda,
                           builder: (context, snapshot) {
@@ -148,10 +127,52 @@ class InterfazCliente extends StatelessWidget {
                             // Por defecto, muestra un loading spinner
                             return const Text("");
                           },),
+                        FutureBuilder<List<Orden>>(
+                          future: orden,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && ordenes.isEmpty) {
+                              for(var x in snapshot.data!){
+                                if(x.idUser == idCliente){
+                                  List newOrden = [x.id,x.idTienda,x.total,x.status,x.idUbication, x.qrCode];
+                                  ordenes.add(newOrden);
+                                }
+                              }
+                            } else if (snapshot.hasError) {
+                              print("${snapshot.error}");
+                              print("error");
+                              return Text("${snapshot.error}");
+                            }
+                            // Por defecto, muestra un loading spinner
+                            return const Text("");
+                          },),
 
                         InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: idCliente)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HacerPedido(tienda: tiendaName, productos: productos, idCliente: idCliente)));
+                            },
+                            child: Container(
+                              height: 50,
+                              margin: const EdgeInsets.symmetric(horizontal: 25),
+                              decoration: BoxDecoration(
+                                color: Colors.red[800],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                child: Text("Hacer Pedido",style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),),
+                              ),
+                            )
+                        ),
+                        //const ButtonLogin2(),
+                        const SizedBox(height: 50),
+
+
+                        InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HistorialPedido(idCliente: idCliente, orden: ordenes)));
                             },
                             child: Container(
                               height: 50,

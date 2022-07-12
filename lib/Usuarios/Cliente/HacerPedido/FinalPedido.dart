@@ -5,17 +5,14 @@ import 'package:pruebas_proyecto/Usuarios/Cliente/InterfazCliente.dart';
 import '../../../FetchData/FetchOrden.dart';
 import '../../../FetchData/FetchProducto.dart';
 import '../../../FetchData/FetchTienda.dart';
-import 'package:qr/qr.dart';
-
-final qrCode = QrCode(4, QrErrorCorrectLevel.L)..addData('Hello, world in QR form!');
-final qrImage = QrImage(qrCode);
 
 
 class FinalPedido extends StatefulWidget {
 
   final Future<Orden> ordenInfo;
+  final int idCliente;
 
-  const FinalPedido({Key? key, required this.ordenInfo}) : super(key: key);
+  const FinalPedido({Key? key, required this.ordenInfo, required this.idCliente}) : super(key: key);
 
   @override
   _FinalPedidoState createState() => _FinalPedidoState();
@@ -24,10 +21,10 @@ class FinalPedido extends StatefulWidget {
 
 class _FinalPedidoState extends State<FinalPedido> {
 
-  int? ordenID;
-  int? tiendaID;
-  int? ubicationID;
-  int? total;
+  int? ordenID = 0;
+  int? tiendaID = 0;
+  int? ubicationID = 0;
+  int? total = 0;
 
 
   @override
@@ -175,7 +172,7 @@ class _FinalPedidoState extends State<FinalPedido> {
                       // #signup_button
                       InkWell(
                           onTap: (){
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(tienda: fetchTienda(), producto: fetchProducto())));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => InterfazCliente(idCliente: widget.idCliente, tienda: fetchTienda(), producto: fetchProducto(), orden: fetchOrden())));
                           },
                           child: Container(
                             height: 50,
